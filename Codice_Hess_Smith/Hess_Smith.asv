@@ -122,10 +122,8 @@ for i= 1:N_pannelli
         Tangente_qui = Tangente(i, :);
         Cp(i) = 1 - dot(U(i,:),Tangente_qui)^2/(norm(U_inf)^2);
 end
-Cp_ventre = -Cp(1:round(N_pannelli/2));
-Cp_dorso = -Cp(round(N_pannelli/2):end);
-x_ventre = x(1:round(N_pannelli/2));
-x_dorso = flip(x(1:round(N_pannelli/2)));
+
+if 
 
 figure(2)
 plot(x_ventre, Cp_ventre, 'ro-'), grid
@@ -136,19 +134,16 @@ legend("Cp_v_e_n_t_r_e", "Cp_d_o_r_s_o")
 xlabel("x")
 ylabel("-Cp")
 
-
 % Calcolo del coefficiente di Lift attraverso l'integrazione della
 % pressione
 
-Cl_pressure_integration = 0;
-for i = 1:N_pannelli
-    Normale_qui = Normale(i, :)';
-    Cl_pressure_integration = Cl_pressure_integration + Cp(i)*(lunghezza(i)/Chord)*dot(Normale_qui, U_inf_normal);
-end
+% Cl_pressure_integration = 0;
+% for i = 1:N_pannelli
+%     Normale_qui = Normale(i, :)';
+%     Cl_pressure_integration = Cl_pressure_integration + Cp(i)*(lunghezza(i)/Chord)*dot(Normale_qui, U_inf_normal);
+% end
 
 
 % Calcolo del coefficiente di momento rispetto al Leading Edge
 
-Cm_LE = Coefficiente_Momento_LE(N_pannelli, Cp, lunghezza, Chord, Centro, LE_X_Position);
 
-fprintf("Il coefficiente di momento rispetto al Leading Edge è pari a: %f \n", Cm_LE)

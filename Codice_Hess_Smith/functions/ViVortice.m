@@ -23,10 +23,9 @@ function [U] = ViVortice(Centro, Estremo_1, Estremo_2, L2G_TransfMatrix, G2L_Tra
 
 
 % Trasformo da coordinate globali a coordinate locali
+
 Centro = G2L_TransfMatrix * Centro;
-
 Estremo_1 = G2L_TransfMatrix * Estremo_1;
-
 Estremo_2 = G2L_TransfMatrix * Estremo_2;
 
 
@@ -40,11 +39,11 @@ theta_2 = atan2(r2(2), r2(1));  % Calcolo theta_2 (angolo che la congiungente r2
 
 % Fix in caso di auto-induzione
 
-if (abs(theta_1) < 1e-8 && abs(theta_2) > 3)
+if (abs(theta_1) < 1e-8 && abs(theta_2) > 3.14)
     theta_1=0; 
     theta_2=pi;
 end
-if (abs(theta_2) < 1e-8 && abs(theta_1) > 3)
+if (abs(theta_2) < 1e-8 && abs(theta_1) > 3.14)
     theta_2=0; 
     theta_1=-pi; 
 end
@@ -52,7 +51,7 @@ end
 % Calcolo le componenti della velocità
 
 u = (theta_2 - theta_1)/(2*pi);
-v = (0.5/pi) * log(norm(r2)/norm(r1));
+v = (1/(2*pi)) * log(norm(r2)/norm(r1));
 
 
 

@@ -48,11 +48,11 @@ end
 
 % Fix in caso di auto-induzione
 
-if (abs(theta_1) < 1e-12 && abs(theta_2) > 3)
+if (abs(theta_1) < 1e-12 && abs(theta_2) > 3.14)
     theta_1=0; 
     theta_2=pi; 
 end
-if (abs(theta_2) < 1e-12 && abs(theta_1) > 3)
+if (abs(theta_2) < 1e-12 && abs(theta_1) > 3.14)
     theta_2=0; 
     theta_1=-pi; 
 end
@@ -60,7 +60,7 @@ end
 
 % Calcolo le componenti della velocità
 
-u = -(0.5/pi) * log(norm(r2)/norm(r1));
+u = -(1/(2*pi)) * log(norm(r2)/norm(r1));
 v = (theta_2 - theta_1)/(2*pi);
 
 
