@@ -1,0 +1,9 @@
+LOAD KC-135 Winglet.txt
+
+PPAR
+
+N 102
+
+SAVE KC_135_Winglet.dat
+
+QUIT
