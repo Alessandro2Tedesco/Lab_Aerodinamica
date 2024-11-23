@@ -50,8 +50,9 @@ Corpo.y = y.*Chord;
 
 % Plot profilo discretizzato
 
-figure(1);
+figure(1)
 plot(Corpo.x, Corpo.y, 'bo-'), grid
+title("Profilo")
 xlabel('x')
 ylabel('y')
 axis equal
@@ -105,23 +106,12 @@ end
 
 %% Calcolo dei coefficienti aerodinamici e del Cp
 
-Circolazione = sum(lunghezza)*gamma;        % Circolazione totale sul profilo
-
-
-% Calcolo del coefficiente di Lift attraverso il Teorema di Jutta-Joukowski
-
-Cl = 2*Circolazione/norm(U_inf);           % Il Lift è negativo per via del Th di Kutta-Joukowsky
+[Cl,Cp,Cl_integer,Cm_LE,Cm_c] = AerodynamicLoads(N_pannelli, U, U_inf, U_inf_normal, gamma, Tangente, Normale, Centro, lunghezza, Chord, LE_X_Position, LE_Y_Position);
 
 fprintf('Il Coefficiente di Lift del profilo è pari a: %f \n', Cl)
 
+% Plot coefficiente di pressione
 
-% Calcolo del coefficiente di pressione sul i-esimo pannello attraverso il Th di Bernoulli
-
-Cp = zeros(N_pannelli,1);
-for i= 1:N_pannelli
-        Tangente_qui = Tangente(i, :);
-        Cp(i) = 1 - dot(U(i,:),Tangente_qui)^2/(norm(U_inf)^2);
-end
 Cp_ventre = -Cp(1:round(N_pannelli/2));
 Cp_dorso = -Cp(round(N_pannelli/2):end);
 x_ventre = x(1:round(N_pannelli/2));
@@ -132,23 +122,12 @@ plot(x_ventre, Cp_ventre, 'ro-'), grid
 hold on
 plot(x_dorso, Cp_dorso, 'bo-')
 hold off
+title("Distribuzione Cp")
 legend("Cp_v_e_n_t_r_e", "Cp_d_o_r_s_o")
 xlabel("x")
 ylabel("-Cp")
 
-
-% Calcolo del coefficiente di Lift attraverso l'integrazione della
-% pressione
-
-Cl_pressure_integration = 0;
-for i = 1:N_pannelli
-    Normale_qui = Normale(i, :)';
-    Cl_pressure_integration = Cl_pressure_integration + Cp(i)*(lunghezza(i)/Chord)*dot(Normale_qui, U_inf_normal);
-end
-
-
-% Calcolo del coefficiente di momento rispetto al Leading Edge
-
-Cm_LE = Coefficiente_Momento_LE(N_pannelli, Cp, lunghezza, Chord, Centro, LE_X_Position);
-
 fprintf("Il coefficiente di momento rispetto al Leading Edge è pari a: %f \n", Cm_LE)
+
+
+%% Calcolo angolo di Theodorsen
